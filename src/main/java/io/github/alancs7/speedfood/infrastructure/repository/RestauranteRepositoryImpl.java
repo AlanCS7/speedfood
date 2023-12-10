@@ -1,7 +1,10 @@
 package io.github.alancs7.speedfood.infrastructure.repository;
 
 import io.github.alancs7.speedfood.domain.model.Restaurante;
+import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepositoryQueries;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -12,11 +15,18 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.alancs7.speedfood.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
+import static io.github.alancs7.speedfood.infrastructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
+
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    @Lazy
+    private RestauranteRepository restauranteRepository;
 
     @Override
     public List<Restaurante> find(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
@@ -44,5 +54,10 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
         var query = entityManager.createQuery(criteria);
 
         return query.getResultList();
+    }
+
+    @Override
+    public List<Restaurante> findComFreteGratis(String nome) {
+        return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
     }
 }
