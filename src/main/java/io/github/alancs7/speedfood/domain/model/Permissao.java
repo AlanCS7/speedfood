@@ -19,4 +19,5 @@ public class Permissao {
 
     @Column(nullable = false)
     private String descricao;
+
 }
