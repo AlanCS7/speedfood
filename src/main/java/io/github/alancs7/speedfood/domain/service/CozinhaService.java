@@ -1,7 +1,7 @@
 package io.github.alancs7.speedfood.domain.service;
 
-import io.github.alancs7.speedfood.domain.exception.EntidadeEmUsoException;
-import io.github.alancs7.speedfood.domain.exception.EntidadeNaoEncontradaException;
+import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
+import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CozinhaService {
+
+    public static final String MSG_COZINHA_NAO_ENCONTRADA = "Não existe um cadastro de cozinha com código %d";
+    public static final String MSG_COZINHA_EM_USO = "Cozinha de código %d não pode ser removida, pois está em uso";
 
     @Autowired
     private CozinhaRepository cozinhaRepository;
@@ -22,8 +24,10 @@ public class CozinhaService {
         return cozinhaRepository.findAll();
     }
 
-    public Optional<Cozinha> buscar(Long id) {
-        return cozinhaRepository.findById(id);
+    public Cozinha buscarOuFalhar(Long id) {
+        return cozinhaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(MSG_COZINHA_NAO_ENCONTRADA, id)));
     }
 
     public Cozinha salvar(Cozinha cozinha) {
@@ -35,12 +39,12 @@ public class CozinhaService {
             cozinhaRepository.deleteById(id);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Não existe um cadastro de cozinha com código %d", id));
+            throw new ResourceNotFoundException(
+                    String.format(MSG_COZINHA_NAO_ENCONTRADA, id));
 
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(
-                    String.format("Cozinha de código %d não pode ser removida, pois está em uso", id));
+            throw new ResourceInUseException(
+                    String.format(MSG_COZINHA_EM_USO, id));
         }
     }
 }
