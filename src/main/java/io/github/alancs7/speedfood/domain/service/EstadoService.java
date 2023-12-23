@@ -1,7 +1,7 @@
 package io.github.alancs7.speedfood.domain.service;
 
+import io.github.alancs7.speedfood.domain.exception.EstadoNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
-import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Estado;
 import io.github.alancs7.speedfood.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 public class EstadoService {
 
-    public static final String MSG_ESTADO_NAO_ENCONTRADO = "Não existe um cadastro de estado com código %d";
     public static final String MSG_ESTADO_EM_USO = "Estado de código %d não pode ser removida, pois está em uso";
 
     @Autowired
@@ -26,8 +25,7 @@ public class EstadoService {
 
     public Estado buscarOuFalhar(Long id) {
         return estadoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(MSG_ESTADO_NAO_ENCONTRADO, id)));
+                .orElseThrow(() -> new EstadoNotFoundException(id));
     }
 
     public Estado salvar(Estado estado) {
@@ -39,8 +37,7 @@ public class EstadoService {
             estadoRepository.deleteById(id);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(
-                    String.format(MSG_ESTADO_NAO_ENCONTRADO, id));
+            throw new EstadoNotFoundException(id);
 
         } catch (DataIntegrityViolationException e) {
             throw new ResourceInUseException(

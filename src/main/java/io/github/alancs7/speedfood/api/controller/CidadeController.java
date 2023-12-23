@@ -1,7 +1,7 @@
 package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
-import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
+import io.github.alancs7.speedfood.domain.exception.EstadoNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Cidade;
 import io.github.alancs7.speedfood.domain.service.CidadeService;
 import org.springframework.beans.BeanUtils;
@@ -33,8 +33,8 @@ public class CidadeController {
     public Cidade adicionar(@RequestBody Cidade cidade) {
         try {
             return cidadeService.salvar(cidade);
-        } catch (ResourceNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (EstadoNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
@@ -46,8 +46,8 @@ public class CidadeController {
 
         try {
             return cidadeService.salvar(cidadeAtual);
-        } catch (ResourceNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (EstadoNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 

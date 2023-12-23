@@ -1,7 +1,7 @@
 package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
-import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
+import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class RestauranteService {
 
-    public static final String MSG_RESTAURANTE_NAO_ENCONTRADO = "Não existe um cadastro de restaurante com código %d";
     public static final String MSG_RESTAURANTE_EM_USO = "Restaurante de código %d não pode ser removida, pois está em uso";
 
     @Autowired
@@ -30,8 +29,7 @@ public class RestauranteService {
 
     public Restaurante buscarOuFalhar(Long id) {
         return restauranteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, id)));
+                .orElseThrow(() -> new RestauranteNotFoundException(id));
     }
 
     public Restaurante salvar(Restaurante restaurante) {
@@ -49,7 +47,7 @@ public class RestauranteService {
             restauranteRepository.deleteById(id);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, id));
+            throw new RestauranteNotFoundException(id);
 
         } catch (DataIntegrityViolationException e) {
             throw new ResourceInUseException(

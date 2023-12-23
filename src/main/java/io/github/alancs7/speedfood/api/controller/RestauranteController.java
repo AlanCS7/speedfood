@@ -2,7 +2,7 @@ package io.github.alancs7.speedfood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
-import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
+import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
@@ -37,8 +37,8 @@ public class RestauranteController {
     public Restaurante adicionar(@RequestBody Restaurante restaurante) {
         try {
             return restauranteService.salvar(restaurante);
-        } catch (ResourceNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (RestauranteNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
@@ -51,8 +51,8 @@ public class RestauranteController {
 
         try {
             return restauranteService.salvar(restauranteAtual);
-        } catch (ResourceNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (RestauranteNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
