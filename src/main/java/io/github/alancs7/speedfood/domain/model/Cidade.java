@@ -1,6 +1,6 @@
 package io.github.alancs7.speedfood.domain.model;
 
-import io.github.alancs7.speedfood.Groups;
+import io.github.alancs7.speedfood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

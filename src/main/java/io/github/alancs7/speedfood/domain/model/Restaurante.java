@@ -1,7 +1,8 @@
 package io.github.alancs7.speedfood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.alancs7.speedfood.Groups;
+import io.github.alancs7.speedfood.core.validation.Groups;
+import io.github.alancs7.speedfood.core.validation.Multiplo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,7 +33,9 @@ public class Restaurante {
     @Column(nullable = false)
     private String nome;
 
+    @NotNull
     @PositiveOrZero
+    @Multiplo(numero = 5)
     @Column(name = "taxa_frete", nullable = false)
     private BigDecimal taxaFrete;
 
