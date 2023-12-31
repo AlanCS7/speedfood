@@ -2,7 +2,6 @@ package io.github.alancs7.speedfood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.alancs7.speedfood.core.validation.Groups;
-import io.github.alancs7.speedfood.core.validation.ValorZeroIncluiDescricao;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,8 +19,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@ValorZeroIncluiDescricao(valorField = "taxaFrete",
-        descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Data
 @EqualsAndHashCode(of = "id")
 @Entity
