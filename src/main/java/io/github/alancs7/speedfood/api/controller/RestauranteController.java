@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.api.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.alancs7.speedfood.core.validation.ValidationException;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +30,9 @@ public class RestauranteController {
 
     @Autowired
     private RestauranteService restauranteService;
+
+    @Autowired
+    private SmartValidator smartValidator;
 
     @GetMapping
     public List<Restaurante> listar() {
@@ -67,6 +73,7 @@ public class RestauranteController {
         Restaurante restauranteAtual = restauranteService.buscarOuFalhar(id);
 
         merge(campos, restauranteAtual, request);
+        validate(restauranteAtual);
 
         return atualizar(id, restauranteAtual);
     }
@@ -99,6 +106,14 @@ public class RestauranteController {
             Throwable rootCause = ExceptionUtils.getRootCause(e);
             throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
         }
+    }
 
+    private void validate(Restaurante restaurante) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, "restaurante");
+        smartValidator.validate(restaurante, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult);
+        }
     }
 }

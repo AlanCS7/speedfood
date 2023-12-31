@@ -3,7 +3,7 @@ package io.github.alancs7.speedfood.api.exception;
 import lombok.Getter;
 
 @Getter
-public enum ErrorType {
+public enum ApiErrorType {
 
     INVALID_DATA("/dados-invalidos", "Dados inválidos"),
     SERVER_ERROR("/erro-de-sistema", "Erro de sistema"),
@@ -16,7 +16,7 @@ public enum ErrorType {
     private final String title;
     private final String uri;
 
-    ErrorType(String path, String title) {
+    ApiErrorType(String path, String title) {
         this.uri = "https://speedfood.com.br" + path;
         this.title = title;
     }
