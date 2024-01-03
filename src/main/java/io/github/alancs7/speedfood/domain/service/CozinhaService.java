@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,10 +29,12 @@ public class CozinhaService {
                 .orElseThrow(() -> new CozinhaNotFoundException(id));
     }
 
+    @Transactional
     public Cozinha salvar(Cozinha cozinha) {
         return cozinhaRepository.save(cozinha);
     }
 
+    @Transactional
     public void excluir(Long id) {
         try {
             cozinhaRepository.deleteById(id);

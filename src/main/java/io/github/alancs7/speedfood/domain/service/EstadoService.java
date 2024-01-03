@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,11 +29,13 @@ public class EstadoService {
                 .orElseThrow(() -> new EstadoNotFoundException(id));
     }
 
+    @Transactional
     public Estado salvar(Estado estado) {
         return estadoRepository.save(estado);
     }
 
-    public void remover(Long id) {
+    @Transactional
+    public void excluir(Long id) {
         try {
             estadoRepository.deleteById(id);
 
