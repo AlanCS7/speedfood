@@ -1,7 +1,7 @@
 package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
-import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
+import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
@@ -34,7 +34,7 @@ public class RestauranteController {
     public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
         try {
             return restauranteService.salvar(restaurante);
-        } catch (RestauranteNotFoundException e) {
+        } catch (CozinhaNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
@@ -48,7 +48,7 @@ public class RestauranteController {
 
         try {
             return restauranteService.salvar(restauranteAtual);
-        } catch (RestauranteNotFoundException e) {
+        } catch (CozinhaNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
