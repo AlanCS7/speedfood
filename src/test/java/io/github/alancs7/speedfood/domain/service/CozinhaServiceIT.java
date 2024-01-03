@@ -4,7 +4,6 @@ import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
-import io.github.alancs7.speedfood.domain.repository.CozinhaRepository;
 import io.github.alancs7.speedfood.util.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
