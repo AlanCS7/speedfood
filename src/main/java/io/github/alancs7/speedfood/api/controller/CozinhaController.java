@@ -1,8 +1,10 @@
 package io.github.alancs7.speedfood.api.controller;
 
+import io.github.alancs7.speedfood.api.mapper.CozinhaMapper;
+import io.github.alancs7.speedfood.api.model.dto.CozinhaDto;
+import io.github.alancs7.speedfood.api.model.input.CozinhaInput;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.service.CozinhaService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,29 +19,34 @@ public class CozinhaController {
     @Autowired
     private CozinhaService cozinhaService;
 
+    @Autowired
+    private CozinhaMapper mapper;
+
     @GetMapping
-    public List<Cozinha> listar() {
-        return cozinhaService.listar();
+    public List<CozinhaDto> listar() {
+        return mapper.toCollectionDto(cozinhaService.listar());
     }
 
     @GetMapping("/{id}")
-    public Cozinha buscar(@PathVariable Long id) {
-        return cozinhaService.buscarOuFalhar(id);
+    public CozinhaDto buscar(@PathVariable Long id) {
+        return mapper.toDto(cozinhaService.buscarOuFalhar(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
-        return cozinhaService.salvar(cozinha);
+    public CozinhaDto adicionar(@RequestBody @Valid CozinhaInput cozinhaInput) {
+        Cozinha cozinha = mapper.toDomainObject(cozinhaInput);
+
+        return mapper.toDto(cozinhaService.salvar(cozinha));
     }
 
     @PutMapping("/{id}")
-    public Cozinha atualizar(@PathVariable Long id, @RequestBody @Valid Cozinha cozinha) {
+    public CozinhaDto atualizar(@PathVariable Long id, @RequestBody @Valid CozinhaInput cozinhaInput) {
         Cozinha cozinhaAtual = cozinhaService.buscarOuFalhar(id);
 
-        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+        mapper.copyToDomainObject(cozinhaInput, cozinhaAtual);
 
-        return cozinhaService.salvar(cozinhaAtual);
+        return mapper.toDto(cozinhaService.salvar(cozinhaAtual));
     }
 
     @DeleteMapping("/{id}")

@@ -1,8 +1,10 @@
 package io.github.alancs7.speedfood.api.controller;
 
+import io.github.alancs7.speedfood.api.mapper.EstadoMapper;
+import io.github.alancs7.speedfood.api.model.dto.EstadoDto;
+import io.github.alancs7.speedfood.api.model.input.EstadoInput;
 import io.github.alancs7.speedfood.domain.model.Estado;
 import io.github.alancs7.speedfood.domain.service.EstadoService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,29 +19,34 @@ public class EstadoController {
     @Autowired
     private EstadoService estadoService;
 
+    @Autowired
+    private EstadoMapper mapper;
+
     @GetMapping
-    public List<Estado> listar() {
-        return estadoService.listar();
+    public List<EstadoDto> listar() {
+        return mapper.toCollectionDto(estadoService.listar());
     }
 
     @GetMapping("/{id}")
-    public Estado buscar(@PathVariable Long id) {
-        return estadoService.buscarOuFalhar(id);
+    public EstadoDto buscar(@PathVariable Long id) {
+        return mapper.toDto(estadoService.buscarOuFalhar(id));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Estado adicionar(@RequestBody @Valid Estado estado) {
-        return estadoService.salvar(estado);
+    public EstadoDto adicionar(@RequestBody @Valid EstadoInput estadoInput) {
+        Estado estado = mapper.toDomainObject(estadoInput);
+
+        return mapper.toDto(estadoService.salvar(estado));
     }
 
     @PutMapping("/{id}")
-    public Estado atualizar(@PathVariable Long id, @RequestBody @Valid Estado estado) {
+    public EstadoDto atualizar(@PathVariable Long id, @RequestBody @Valid EstadoInput estadoInput) {
         Estado estadoAtual = estadoService.buscarOuFalhar(id);
 
-        BeanUtils.copyProperties(estado, estadoAtual, "id");
+        mapper.copyToDomainObject(estadoInput, estadoAtual);
 
-        return estadoService.salvar(estadoAtual);
+        return mapper.toDto(estadoService.salvar(estadoAtual));
     }
 
     @DeleteMapping("/{id}")
