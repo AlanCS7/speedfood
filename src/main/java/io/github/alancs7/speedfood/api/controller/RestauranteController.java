@@ -24,7 +24,6 @@ public class RestauranteController {
     @Autowired
     private RestauranteMapper mapper;
 
-
     @GetMapping
     public List<RestauranteDto> listar() {
         return mapper.toCollectionDto(restauranteService.listar());
@@ -58,5 +57,17 @@ public class RestauranteController {
         } catch (CozinhaNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
+    }
+
+    @PutMapping("/{id}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativar(@PathVariable Long id) {
+        restauranteService.ativar(id);
+    }
+
+    @DeleteMapping("/{id}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativar(@PathVariable Long id) {
+        restauranteService.inativar(id);
     }
 }
