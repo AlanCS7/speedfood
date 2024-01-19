@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.api.mapper;
 
 import io.github.alancs7.speedfood.api.model.dto.RestauranteDto;
 import io.github.alancs7.speedfood.api.model.input.RestauranteInput;
+import io.github.alancs7.speedfood.domain.model.Cidade;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
@@ -34,6 +35,10 @@ public class RestauranteMapper {
         // Para evitar org.springframework.orm.jpa.JpaSystemException: identifier of an instance of
         // io.github.alancs7.speedfood.domain.model.Cozinha was altered from 1 to 2
         restaurante.setCozinha(new Cozinha());
+
+        if (restaurante.getEndereco() != null) {
+            restaurante.getEndereco().setCidade(new Cidade());
+        }
 
         modelMapper.map(restauranteInput, restaurante);
     }

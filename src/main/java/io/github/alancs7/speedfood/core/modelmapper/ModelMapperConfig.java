@@ -18,10 +18,17 @@ public class ModelMapperConfig {
         ModelMapper modelMapper = new ModelMapper();
 
         modelMapper.createTypeMap(RestauranteInput.class, Restaurante.class)
-                .<Long>addMapping(RestauranteInput::getCozinha, (restauranteDest, value) -> restauranteDest.getCozinha().setId(value));
+                .<Long>addMapping(
+                        RestauranteInput::getCozinha,
+                        (restauranteDest, value) -> restauranteDest.getCozinha().setId(value))
+                .<Long>addMapping(
+                        restauranteSrc -> restauranteSrc.getEndereco().getCidade(),
+                        (restauranteDest, value) -> restauranteDest.getEndereco().getCidade().setId(value));
 
         modelMapper.createTypeMap(CidadeInput.class, Cidade.class)
-                .<Long>addMapping(CidadeInput::getEstado, (cidadeDest, value) -> cidadeDest.getEstado().setId(value));
+                .<Long>addMapping(
+                        CidadeInput::getEstado,
+                        (cidadeDest, value) -> cidadeDest.getEstado().setId(value));
 
         modelMapper.createTypeMap(Endereco.class, EnderecoDto.class)
                 .<String>addMapping(

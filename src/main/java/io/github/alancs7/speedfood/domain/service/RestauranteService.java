@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
 import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
+import io.github.alancs7.speedfood.domain.model.Cidade;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
@@ -24,6 +25,9 @@ public class RestauranteService {
     @Autowired
     private CozinhaService cozinhaService;
 
+    @Autowired
+    private CidadeService cidadeService;
+
     public List<Restaurante> listar() {
         return restauranteRepository.findAll();
     }
@@ -36,10 +40,13 @@ public class RestauranteService {
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
+        Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
         Cozinha cozinha = cozinhaService.buscarOuFalhar(cozinhaId);
+        Cidade cidade = cidadeService.buscarOuFalhar(cidadeId);
 
         restaurante.setCozinha(cozinha);
+        restaurante.getEndereco().setCidade(cidade);
 
         return restauranteRepository.save(restaurante);
     }

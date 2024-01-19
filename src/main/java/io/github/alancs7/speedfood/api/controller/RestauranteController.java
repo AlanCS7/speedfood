@@ -4,6 +4,7 @@ import io.github.alancs7.speedfood.api.mapper.RestauranteMapper;
 import io.github.alancs7.speedfood.api.model.dto.RestauranteDto;
 import io.github.alancs7.speedfood.api.model.input.RestauranteInput;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
+import io.github.alancs7.speedfood.domain.exception.CidadeNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.service.RestauranteService;
@@ -41,7 +42,7 @@ public class RestauranteController {
             Restaurante restaurante = mapper.toDomainObject(restauranteInput);
 
             return mapper.toDto(restauranteService.salvar(restaurante));
-        } catch (CozinhaNotFoundException e) {
+        } catch (CozinhaNotFoundException | CidadeNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
@@ -54,7 +55,7 @@ public class RestauranteController {
             mapper.copyToDomainObject(restauranteInput, restauranteAtual);
 
             return mapper.toDto(restauranteService.salvar(restauranteAtual));
-        } catch (CozinhaNotFoundException e) {
+        } catch (CozinhaNotFoundException | CidadeNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }

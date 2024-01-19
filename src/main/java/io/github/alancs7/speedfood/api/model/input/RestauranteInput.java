@@ -3,6 +3,7 @@ package io.github.alancs7.speedfood.api.model.input;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -21,4 +22,8 @@ public class RestauranteInput {
 
     @NotNull
     private Long cozinha;
+
+    @Valid
+    @NotNull
+    private EnderecoInput endereco;
 }
