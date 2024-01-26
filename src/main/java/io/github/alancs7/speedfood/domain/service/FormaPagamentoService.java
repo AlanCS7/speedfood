@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,10 +29,12 @@ public class FormaPagamentoService {
                 .orElseThrow(() -> new FormaPagamentoNotFoundException(id));
     }
 
+    @Transactional
     public FormaPagamento salvar(FormaPagamento formaPagamento) {
         return formaPagamentoRepository.save(formaPagamento);
     }
 
+    @Transactional
     public void excluir(Long id) {
         try {
             formaPagamentoRepository.deleteById(id);

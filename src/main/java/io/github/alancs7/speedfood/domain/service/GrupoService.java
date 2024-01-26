@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -28,10 +29,12 @@ public class GrupoService {
                 .orElseThrow(() -> new GrupoNotFoundException(id));
     }
 
+    @Transactional
     public Grupo salvar(Grupo grupo) {
         return grupoRepository.save(grupo);
     }
 
+    @Transactional
     public void excluir(Long id) {
         try {
             grupoRepository.deleteById(id);
