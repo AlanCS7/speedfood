@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CidadeMapper {
@@ -23,7 +24,7 @@ public class CidadeMapper {
     public List<CidadeDto> toCollectionDto(List<Cidade> cidades) {
         return cidades.stream()
                 .map(this::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Cidade toDomainObject(CidadeInput cidadeInput) {

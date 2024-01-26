@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CozinhaMapper {
@@ -22,7 +23,7 @@ public class CozinhaMapper {
     public List<CozinhaDto> toCollectionDto(List<Cozinha> cozinhas) {
         return cozinhas.stream()
                 .map(this::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Cozinha toDomainObject(CozinhaInput cozinhaInput) {

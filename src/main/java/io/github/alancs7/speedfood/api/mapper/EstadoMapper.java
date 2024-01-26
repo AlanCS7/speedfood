@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EstadoMapper {
@@ -22,7 +23,7 @@ public class EstadoMapper {
     public List<EstadoDto> toCollectionDto(List<Estado> estados) {
         return estados.stream()
                 .map(this::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public Estado toDomainObject(EstadoInput estadoInput) {
