@@ -3,6 +3,7 @@ package io.github.alancs7.speedfood.domain.service;
 import io.github.alancs7.speedfood.domain.exception.GrupoNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
 import io.github.alancs7.speedfood.domain.model.Grupo;
+import io.github.alancs7.speedfood.domain.model.Permissao;
 import io.github.alancs7.speedfood.domain.repository.GrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +20,9 @@ public class GrupoService {
 
     @Autowired
     private GrupoRepository grupoRepository;
+
+    @Autowired
+    private PermissaoService permissaoService;
 
     public List<Grupo> listar() {
         return grupoRepository.findAll();
@@ -47,5 +51,21 @@ public class GrupoService {
             throw new ResourceInUseException(
                     String.format(MSG_GRUPO_EM_USO, id));
         }
+    }
+
+    @Transactional
+    public void associarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = permissaoService.buscarOuFalhar(permissaoId);
+
+        grupo.adicionarPermissao(permissao);
+    }
+
+    @Transactional
+    public void desassociarPermissao(Long grupoId, Long permissaoId) {
+        Grupo grupo = buscarOuFalhar(grupoId);
+        Permissao permissao = permissaoService.buscarOuFalhar(permissaoId);
+
+        grupo.removerPermissao(permissao);
     }
 }

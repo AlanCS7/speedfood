@@ -1,30 +1,29 @@
+set foreign_key_checks = 0;
 
-SET foreign_key_checks = 0;
+delete from cidade;
+delete from cozinha;
+delete from estado;
+delete from forma_pagamento;
+delete from grupo;
+delete from grupo_permissao;
+delete from permissao;
+delete from produto;
+delete from restaurante;
+delete from restaurante_forma_pagamento;
+delete from usuario;
+delete from usuario_grupo;
 
-DELETE FROM cidade;
-DELETE FROM cozinha;
-DELETE FROM estado;
-DELETE FROM forma_pagamento;
-DELETE FROM grupo;
-DELETE FROM grupo_permissao;
-DELETE FROM permissao;
-DELETE FROM produto;
-DELETE FROM restaurante;
-DELETE FROM restaurante_forma_pagamento;
-DELETE FROM usuario;
-DELETE FROM usuario_grupo;
+set foreign_key_checks = 1;
 
-SET foreign_key_checks = 1;
-
-ALTER TABLE cidade AUTO_INCREMENT = 1;
-ALTER TABLE cozinha AUTO_INCREMENT = 1;
-ALTER TABLE estado AUTO_INCREMENT = 1;
-ALTER TABLE forma_pagamento AUTO_INCREMENT = 1;
-ALTER TABLE grupo AUTO_INCREMENT = 1;
-ALTER TABLE permissao AUTO_INCREMENT = 1;
-ALTER TABLE produto AUTO_INCREMENT = 1;
-ALTER TABLE restaurante AUTO_INCREMENT = 1;
-ALTER TABLE usuario AUTO_INCREMENT = 1;
+alter table cidade auto_increment = 1;
+alter table cozinha auto_increment = 1;
+alter table estado auto_increment = 1;
+alter table forma_pagamento auto_increment = 1;
+alter table grupo auto_increment = 1;
+alter table permissao auto_increment = 1;
+alter table produto auto_increment = 1;
+alter table restaurante auto_increment = 1;
+alter table usuario auto_increment = 1;
 
 insert into cozinha (id, nome) values (1, 'Tailandesa');
 insert into cozinha (id, nome) values (2, 'Indiana');
@@ -72,7 +71,9 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('San
 
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
-insert into grupo (nome) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
+insert into grupo (id, nome) values (1, 'Gerente'), (2, 'Vendedor'), (3, 'Secretária'), (4, 'Cadastrador');
+
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
 insert into usuario (id, nome, email, senha, data_cadastro) values
 (1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
