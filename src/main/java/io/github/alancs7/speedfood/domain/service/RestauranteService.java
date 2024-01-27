@@ -99,4 +99,18 @@ public class RestauranteService {
                     String.format(MSG_RESTAURANTE_EM_USO, id));
         }
     }
+
+    @Transactional
+    public void abrir(Long id) {
+        Restaurante restaurante = buscarOuFalhar(id);
+
+        restaurante.abrir();
+    }
+
+    @Transactional
+    public void fechar(Long id) {
+        Restaurante restaurante = buscarOuFalhar(id);
+
+        restaurante.fechar();
+    }
 }
