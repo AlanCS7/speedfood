@@ -4,6 +4,7 @@ import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
 import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Cidade;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
+import io.github.alancs7.speedfood.domain.model.FormaPagamento;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class RestauranteService {
 
     @Autowired
     private CidadeService cidadeService;
+
+    @Autowired
+    private FormaPagamentoService formaPagamentoService;
 
     public List<Restaurante> listar() {
         return restauranteRepository.findAll();
@@ -63,6 +67,22 @@ public class RestauranteService {
         Restaurante restaurante = buscarOuFalhar(id);
 
         restaurante.inativar();
+    }
+
+    @Transactional
+    public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.adicionarFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        FormaPagamento formaPagamento = formaPagamentoService.buscarOuFalhar(formaPagamentoId);
+
+        restaurante.removerFormaPagamento(formaPagamento);
     }
 
     @Transactional
