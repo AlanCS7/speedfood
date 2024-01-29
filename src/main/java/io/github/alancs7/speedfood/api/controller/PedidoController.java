@@ -1,7 +1,9 @@
 package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.api.mapper.PedidoMapper;
+import io.github.alancs7.speedfood.api.mapper.PedidoResumoMapper;
 import io.github.alancs7.speedfood.api.model.dto.PedidoDto;
+import io.github.alancs7.speedfood.api.model.dto.PedidoResumoDto;
 import io.github.alancs7.speedfood.domain.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +21,18 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @Autowired
-    private PedidoMapper mapper;
+    private PedidoMapper pedidoMapper;
+
+    @Autowired
+    private PedidoResumoMapper pedidoResumoMapper;
 
     @GetMapping
-    public List<PedidoDto> listar() {
-        return mapper.toCollectionDto(pedidoService.listar());
+    public List<PedidoResumoDto> listar() {
+        return pedidoResumoMapper.toCollectionDto(pedidoService.listar());
     }
 
     @GetMapping("/{id}")
     public PedidoDto buscar(@PathVariable Long id) {
-        return mapper.toDto(pedidoService.buscar(id));
+        return pedidoMapper.toDto(pedidoService.buscarOuFalhar(id));
     }
 }

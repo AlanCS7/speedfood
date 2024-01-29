@@ -18,7 +18,7 @@ public class PedidoService {
         return pedidoRepository.findAll();
     }
 
-    public Pedido buscar(Long id) {
+    public Pedido buscarOuFalhar(Long id) {
         return pedidoRepository.findById(id)
                 .orElseThrow(() -> new PedidoNotFoundException(id));
     }
