@@ -37,7 +37,8 @@ public class Pedido {
     @Embedded
     private Endereco enderecoEntrega;
 
-    private StatusPedido status;
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status = StatusPedido.CRIADO;
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id", nullable = false)
@@ -45,7 +46,7 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "usuario_cliente_id", nullable = false)
-    private Usuario usuario;
+    private Usuario cliente;
 
     @ManyToOne
     @JoinColumn(name = "forma_pagamento_id", nullable = false)
