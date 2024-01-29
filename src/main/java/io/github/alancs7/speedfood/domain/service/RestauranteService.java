@@ -2,10 +2,7 @@ package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
 import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
-import io.github.alancs7.speedfood.domain.model.Cidade;
-import io.github.alancs7.speedfood.domain.model.Cozinha;
-import io.github.alancs7.speedfood.domain.model.FormaPagamento;
-import io.github.alancs7.speedfood.domain.model.Restaurante;
+import io.github.alancs7.speedfood.domain.model.*;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,6 +28,9 @@ public class RestauranteService {
 
     @Autowired
     private FormaPagamentoService formaPagamentoService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     public List<Restaurante> listar() {
         return restauranteRepository.findAll();
@@ -112,5 +112,21 @@ public class RestauranteService {
         Restaurante restaurante = buscarOuFalhar(id);
 
         restaurante.fechar();
+    }
+
+    @Transactional
+    public void associarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario responsavel = usuarioService.buscarOuFalhar(usuarioId);
+
+        restaurante.adicionarResponsavel(responsavel);
+    }
+
+    @Transactional
+    public void desassociarResponsavel(Long restauranteId, Long usuarioId) {
+        Restaurante restaurante = buscarOuFalhar(restauranteId);
+        Usuario responsavel = usuarioService.buscarOuFalhar(usuarioId);
+
+        restaurante.removerResponsavel(responsavel);
     }
 }
