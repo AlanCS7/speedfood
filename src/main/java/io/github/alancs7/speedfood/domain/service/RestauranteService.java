@@ -63,10 +63,20 @@ public class RestauranteService {
     }
 
     @Transactional
+    public void ativarEmMassa(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::ativar);
+    }
+
+    @Transactional
     public void inativar(Long id) {
         Restaurante restaurante = buscarOuFalhar(id);
 
         restaurante.inativar();
+    }
+
+    @Transactional
+    public void inativarEmMassa(List<Long> restauranteIds) {
+        restauranteIds.forEach(this::inativar);
     }
 
     @Transactional

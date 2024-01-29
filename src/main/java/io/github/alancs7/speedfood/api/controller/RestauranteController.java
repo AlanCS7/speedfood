@@ -6,6 +6,7 @@ import io.github.alancs7.speedfood.api.model.input.RestauranteInput;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.CidadeNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
+import io.github.alancs7.speedfood.domain.exception.RestauranteNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,26 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativar(@PathVariable Long id) {
         restauranteService.inativar(id);
+    }
+
+    @PutMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarEmMassa(@RequestBody List<Long> ids) {
+        try {
+            restauranteService.ativarEmMassa(ids);
+        } catch (RestauranteNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/ativacoes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativarEmMassa(@RequestBody List<Long> ids) {
+        try {
+            restauranteService.inativarEmMassa(ids);
+        } catch (RestauranteNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 
     @PutMapping("/{id}/abertura")
