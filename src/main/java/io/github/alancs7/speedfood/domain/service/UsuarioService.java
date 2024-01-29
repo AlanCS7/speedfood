@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.UsuarioNotFoundException;
+import io.github.alancs7.speedfood.domain.model.Grupo;
 import io.github.alancs7.speedfood.domain.model.Usuario;
 import io.github.alancs7.speedfood.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private GrupoService grupoService;
 
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
@@ -49,5 +53,21 @@ public class UsuarioService {
         }
 
         usuario.setSenha(novaSenha);
+    }
+
+    @Transactional
+    public void associarGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = buscarOuFalhar(usuarioId);
+        Grupo grupo = grupoService.buscarOuFalhar(grupoId);
+
+        usuario.adicionarGrupo(grupo);
+    }
+
+    @Transactional
+    public void desassociarGrupo(Long usuarioId, Long grupoId) {
+        Usuario usuario = buscarOuFalhar(usuarioId);
+        Grupo grupo = grupoService.buscarOuFalhar(grupoId);
+
+        usuario.removerGrupo(grupo);
     }
 }
