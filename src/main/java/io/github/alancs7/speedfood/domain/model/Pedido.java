@@ -1,5 +1,6 @@
 package io.github.alancs7.speedfood.domain.model;
 
+import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -63,5 +64,31 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.valorTotal = this.subtotal.add(this.taxaFrete);
+    }
+
+    public void confirmar() {
+        this.setStatus(StatusPedido.CONFIRMADO);
+        this.setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void entregar() {
+        this.setStatus(StatusPedido.ENTREGUE);
+        this.setDataEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        this.setStatus(StatusPedido.CANCELADO);
+        this.setDataCancelamento(OffsetDateTime.now());
+    }
+
+    private void setStatus(StatusPedido novoStatus) {
+        if (this.getStatus().naoPodeAlterarPara(novoStatus)) {
+            throw new BusinessException(
+                    String.format("Status do pedido %d não pode ser alterado de %s para %s",
+                            this.getId(), this.getStatus().getDescricao(), novoStatus.getDescricao()));
+
+        }
+
+        this.status = novoStatus;
     }
 }
