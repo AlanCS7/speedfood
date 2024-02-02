@@ -1,8 +1,10 @@
 package io.github.alancs7.speedfood.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import io.github.alancs7.speedfood.api.mapper.RestauranteMapper;
 import io.github.alancs7.speedfood.api.model.dto.RestauranteDto;
 import io.github.alancs7.speedfood.api.model.input.RestauranteInput;
+import io.github.alancs7.speedfood.api.model.view.RestauranteView;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.CidadeNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
@@ -26,9 +28,16 @@ public class RestauranteController {
     @Autowired
     private RestauranteMapper mapper;
 
+    @JsonView(RestauranteView.Resumo.class)
     @GetMapping
     public List<RestauranteDto> listar() {
         return mapper.toCollectionDto(restauranteService.listar());
+    }
+
+    @JsonView(RestauranteView.ApenasNome.class)
+    @GetMapping(params = "projecao=apenas-nome")
+    public List<RestauranteDto> listarApenasNome() {
+        return listar();
     }
 
     @GetMapping("/{id}")
