@@ -35,9 +35,9 @@ public class PedidoService {
         return pedidoRepository.findAll();
     }
 
-    public Pedido buscarOuFalhar(Long id) {
-        return pedidoRepository.findById(id)
-                .orElseThrow(() -> new PedidoNotFoundException(id));
+    public Pedido buscarOuFalhar(String codigo) {
+        return pedidoRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new PedidoNotFoundException(codigo));
     }
 
     @Transactional
