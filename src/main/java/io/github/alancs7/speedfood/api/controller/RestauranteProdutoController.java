@@ -28,10 +28,10 @@ public class RestauranteProdutoController {
     private ProdutoMapper produtoMapper;
 
     @GetMapping
-    public List<ProdutoDto> listar(@PathVariable Long restauranteId) {
+    public List<ProdutoDto> listar(@PathVariable Long restauranteId, @RequestParam(required = false) boolean incluirInativos) {
         Restaurante restaurante = restauranteService.buscarOuFalhar(restauranteId);
 
-        List<Produto> produtos = produtoService.findByRestaurante(restaurante);
+        List<Produto> produtos = produtoService.findByRestaurante(restaurante, incluirInativos);
 
         return produtoMapper.toCollectionDto(produtos);
     }

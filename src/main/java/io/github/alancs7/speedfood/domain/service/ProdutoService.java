@@ -16,8 +16,10 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public List<Produto> findByRestaurante(Restaurante restaurante) {
-        return produtoRepository.findByRestaurante(restaurante);
+    public List<Produto> findByRestaurante(Restaurante restaurante, boolean incluirInativos) {
+        return incluirInativos
+                ? produtoRepository.findAllByRestaurante(restaurante)
+                : produtoRepository.findAtivosByRestaurante(restaurante);
     }
 
     public Produto buscarOuFalhar(Long restauranteId, Long produtoId) {
