@@ -9,6 +9,7 @@ import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Pedido;
 import io.github.alancs7.speedfood.domain.model.Usuario;
+import io.github.alancs7.speedfood.domain.repository.filter.PedidoFilter;
 import io.github.alancs7.speedfood.domain.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,8 +32,8 @@ public class PedidoController {
     private PedidoResumoMapper pedidoResumoMapper;
 
     @GetMapping
-    public List<PedidoResumoDto> listar() {
-        return pedidoResumoMapper.toCollectionDto(pedidoService.listar());
+    public List<PedidoResumoDto> pesquisar(PedidoFilter filter) {
+        return pedidoResumoMapper.toCollectionDto(pedidoService.listar(filter));
     }
 
     @GetMapping("/{codigoPedido}")

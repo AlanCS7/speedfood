@@ -4,6 +4,8 @@ import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.PedidoNotFoundException;
 import io.github.alancs7.speedfood.domain.model.*;
 import io.github.alancs7.speedfood.domain.repository.PedidoRepository;
+import io.github.alancs7.speedfood.domain.repository.filter.PedidoFilter;
+import io.github.alancs7.speedfood.infrastructure.repository.spec.PedidoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +33,8 @@ public class PedidoService {
     @Autowired
     private FormaPagamentoService formaPagamentoService;
 
-    public List<Pedido> listar() {
-        return pedidoRepository.findAll();
+    public List<Pedido> listar(PedidoFilter filter) {
+        return pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter));
     }
 
     public Pedido buscarOuFalhar(String codigo) {
