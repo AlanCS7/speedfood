@@ -6,6 +6,10 @@ import io.github.alancs7.speedfood.api.model.input.CozinhaInput;
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +27,12 @@ public class CozinhaController {
     private CozinhaMapper mapper;
 
     @GetMapping
-    public List<CozinhaDto> listar() {
-        return mapper.toCollectionDto(cozinhaService.listar());
+    public Page<CozinhaDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+        Page<Cozinha> cozinhas = cozinhaService.listar(pageable);
+
+        List<CozinhaDto> cozinhaDtos = mapper.toCollectionDto(cozinhas.getContent());
+
+        return new PageImpl<>(cozinhaDtos, pageable, cozinhas.getTotalElements());
     }
 
     @GetMapping("/{id}")
