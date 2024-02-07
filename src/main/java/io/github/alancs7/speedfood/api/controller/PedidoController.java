@@ -12,6 +12,10 @@ import io.github.alancs7.speedfood.domain.model.Usuario;
 import io.github.alancs7.speedfood.domain.repository.filter.PedidoFilter;
 import io.github.alancs7.speedfood.domain.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +36,12 @@ public class PedidoController {
     private PedidoResumoMapper pedidoResumoMapper;
 
     @GetMapping
-    public List<PedidoResumoDto> pesquisar(PedidoFilter filter) {
-        return pedidoResumoMapper.toCollectionDto(pedidoService.listar(filter));
+    public Page<PedidoResumoDto> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
+        Page<Pedido> pedidos = pedidoService.listar(filter, pageable);
+
+        List<PedidoResumoDto> pedidoResumoDtos = pedidoResumoMapper.toCollectionDto(pedidos.getContent());
+
+        return new PageImpl<>(pedidoResumoDtos, pageable, pedidos.getTotalElements());
     }
 
     @GetMapping("/{codigoPedido}")

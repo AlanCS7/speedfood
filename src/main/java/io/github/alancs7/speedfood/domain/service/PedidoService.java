@@ -7,10 +7,10 @@ import io.github.alancs7.speedfood.domain.repository.PedidoRepository;
 import io.github.alancs7.speedfood.domain.repository.filter.PedidoFilter;
 import io.github.alancs7.speedfood.infrastructure.repository.spec.PedidoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class PedidoService {
@@ -33,8 +33,8 @@ public class PedidoService {
     @Autowired
     private FormaPagamentoService formaPagamentoService;
 
-    public List<Pedido> listar(PedidoFilter filter) {
-        return pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter));
+    public Page<Pedido> listar(PedidoFilter filter, Pageable pageable) {
+        return pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter), pageable);
     }
 
     public Pedido buscarOuFalhar(String codigo) {
