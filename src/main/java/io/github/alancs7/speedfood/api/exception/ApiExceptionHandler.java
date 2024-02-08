@@ -11,6 +11,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<Object> handlePropertyReferenceException(PropertyReferenceException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ApiErrorType apiErrorType = ApiErrorType.INVALID_PARAMETER;
+        String propertyName = ex.getPropertyName();
+        String className = ex.getType().getType().getSimpleName();
+
+        String detail = String.format("O parâmetro de URL '%s' não existe para o tipo '%s'. " +
+                "Corrija e informe um valor correto.", propertyName, className);
+
+        ApiError apiError = createStandardErrorBuilder(status, apiErrorType, detail)
+                .userMessage(MSG_ERRO_GENERICA_USUARIO_FINAL)
+                .build();
+
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
+    }
 
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

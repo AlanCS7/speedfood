@@ -5,6 +5,7 @@ import io.github.alancs7.speedfood.api.mapper.PedidoResumoMapper;
 import io.github.alancs7.speedfood.api.model.dto.PedidoDto;
 import io.github.alancs7.speedfood.api.model.dto.PedidoResumoDto;
 import io.github.alancs7.speedfood.api.model.input.PedidoInput;
+import io.github.alancs7.speedfood.core.data.PageableTranslator;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Pedido;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -37,6 +39,8 @@ public class PedidoController {
 
     @GetMapping
     public Page<PedidoResumoDto> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
+        pageable = traduzirPageable(pageable);
+
         Page<Pedido> pedidos = pedidoService.listar(filter, pageable);
 
         List<PedidoResumoDto> pedidoResumoDtos = pedidoResumoMapper.toCollectionDto(pedidos.getContent());
@@ -62,5 +66,21 @@ public class PedidoController {
         } catch (ResourceNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
+    }
+
+    private Pageable traduzirPageable(Pageable apiPageable) {
+        var mapeamento = Map.of(
+                "codigo", "codigo",
+                "subtotal", "subtotal",
+                "taxaFrete", "taxaFrete",
+                "valorTotal", "valorTotal",
+                "dataCriacao", "dataCriacao",
+                "restaurante.nome", "restaurante.nome",
+                "restaurante.id", "restaurante.id",
+                "cliente.id", "cliente.id",
+                "cliente.nome", "cliente.nome"
+        );
+
+        return PageableTranslator.translate(apiPageable, mapeamento);
     }
 }
