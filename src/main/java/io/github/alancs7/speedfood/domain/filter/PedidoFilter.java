@@ -1,4 +1,4 @@
-package io.github.alancs7.speedfood.domain.repository.filter;
+package io.github.alancs7.speedfood.domain.filter;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -2,9 +2,9 @@ package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.PedidoNotFoundException;
+import io.github.alancs7.speedfood.domain.filter.PedidoFilter;
 import io.github.alancs7.speedfood.domain.model.*;
 import io.github.alancs7.speedfood.domain.repository.PedidoRepository;
-import io.github.alancs7.speedfood.domain.repository.filter.PedidoFilter;
 import io.github.alancs7.speedfood.infrastructure.repository.spec.PedidoSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

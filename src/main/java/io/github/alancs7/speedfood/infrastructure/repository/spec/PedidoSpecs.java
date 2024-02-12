@@ -1,7 +1,7 @@
 package io.github.alancs7.speedfood.infrastructure.repository.spec;
 
+import io.github.alancs7.speedfood.domain.filter.PedidoFilter;
 import io.github.alancs7.speedfood.domain.model.Pedido;
-import io.github.alancs7.speedfood.domain.repository.filter.PedidoFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
