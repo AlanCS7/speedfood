@@ -1,14 +1,12 @@
 package io.github.alancs7.speedfood.domain.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class VendaDiaria {
 

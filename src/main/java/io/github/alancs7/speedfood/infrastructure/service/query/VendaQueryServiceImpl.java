@@ -1,4 +1,4 @@
-package io.github.alancs7.speedfood.infrastructure.service;
+package io.github.alancs7.speedfood.infrastructure.service.query;
 
 import io.github.alancs7.speedfood.domain.filter.VendaDiariaFilter;
 import io.github.alancs7.speedfood.domain.model.Pedido;
