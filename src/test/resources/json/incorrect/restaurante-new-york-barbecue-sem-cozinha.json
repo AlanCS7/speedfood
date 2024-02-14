@@ -1,4 +1,12 @@
 {
   "nome": "New York Barbecue",
-  "taxaFrete": 12
+  "taxaFrete": 12,
+  "endereco": {
+    "cep": "01234-567",
+    "logradouro": "Rua Java Beans",
+    "numero": "123",
+    "complemento": null,
+    "bairro": "Postman",
+    "cidade": 1
+  }
 }

@@ -18,7 +18,8 @@ import org.springframework.test.context.TestPropertySource;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
@@ -71,7 +72,7 @@ class CozinhaServiceApiTest {
         .when()
                 .get()
         .then()
-                .body("", hasSize(quantidadeCozinhasCadastradas));
+                .body("content", hasSize(quantidadeCozinhasCadastradas));
     }
 
     @DisplayName("Deve retornar status 201 ao criar uma nova cozinha")

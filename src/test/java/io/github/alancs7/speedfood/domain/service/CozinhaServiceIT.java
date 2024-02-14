@@ -2,8 +2,7 @@ package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.ResourceInUseException;
-import io.github.alancs7.speedfood.domain.model.Cozinha;
-import io.github.alancs7.speedfood.domain.model.Restaurante;
+import io.github.alancs7.speedfood.domain.model.*;
 import io.github.alancs7.speedfood.util.DatabaseCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +29,13 @@ class CozinhaServiceIT {
 
     @Autowired
     private RestauranteService restauranteService;
+
+    @Autowired
+    private CidadeService cidadeService;
+
+    @Autowired
+    private EstadoService estadoService;
+
 
     @BeforeEach
     void setUp() {
@@ -86,13 +92,25 @@ class CozinhaServiceIT {
         Cozinha cozinha = new Cozinha();
         cozinha.setNome("Brasileira");
 
-        cozinhaService.salvar(cozinha);
+        Estado estado = new Estado();
+        estado.setNome("São Paulo");
+
+        Cidade cidade = new Cidade();
+        cidade.setNome("Guarulhos");
+        cidade.setEstado(estado);
+
+        Endereco endereco = new Endereco();
+        endereco.setCidade(cidade);
 
         Restaurante restaurante = new Restaurante();
         restaurante.setNome("Comida mineira");
         restaurante.setTaxaFrete(new BigDecimal("5.00"));
         restaurante.setCozinha(cozinha);
+        restaurante.setEndereco(endereco);
 
+        cozinhaService.salvar(cozinha);
+        estadoService.salvar(estado);
+        cidadeService.salvar(cidade);
         restauranteService.salvar(restaurante);
     }
 }

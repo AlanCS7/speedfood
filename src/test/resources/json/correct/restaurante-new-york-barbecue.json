@@ -1,7 +1,13 @@
 {
-  "nome": "New York Barbecue",
-  "taxaFrete": 12,
-  "cozinha": {
-    "id": 2
+  "nome": "Comida da Boa",
+  "taxaFrete": 15,
+  "cozinha": 1,
+  "endereco": {
+    "cep": "01234-567",
+    "logradouro": "Rua Java Beans",
+    "numero": "123",
+    "complemento": null,
+    "bairro": "Postman",
+    "cidade": 1
   }
 }

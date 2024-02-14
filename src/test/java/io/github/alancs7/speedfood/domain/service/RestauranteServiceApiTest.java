@@ -1,7 +1,6 @@
 package io.github.alancs7.speedfood.domain.service;
 
-import io.github.alancs7.speedfood.domain.model.Cozinha;
-import io.github.alancs7.speedfood.domain.model.Restaurante;
+import io.github.alancs7.speedfood.domain.model.*;
 import io.github.alancs7.speedfood.domain.repository.CozinhaRepository;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
 import io.github.alancs7.speedfood.util.DatabaseCleaner;
@@ -43,6 +42,12 @@ class RestauranteServiceApiTest {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
+
+    @Autowired
+    private CidadeService cidadeService;
+
+    @Autowired
+    private EstadoService estadoService;
 
     private String jsonRestauranteCorreto;
     private String jsonRestauranteSemFrete;
@@ -165,24 +170,39 @@ class RestauranteServiceApiTest {
     }
 
     private void prepareDatas() {
+        Estado estado = new Estado();
+        estado.setNome("São Paulo");
+        estado = estadoService.salvar(estado);
+
+        Cidade cidade = new Cidade();
+        cidade.setNome("Guarulhos");
+        cidade.setEstado(estado);
+        cidade = cidadeService.salvar(cidade);
+
+        Endereco endereco = new Endereco();
+        endereco.setCidade(cidade);
+
         Cozinha cozinhaBrasileira = new Cozinha();
         cozinhaBrasileira.setNome("Brasileira");
-        cozinhaRepository.save(cozinhaBrasileira);
 
         Cozinha cozinhaAmericana = new Cozinha();
         cozinhaAmericana.setNome("Americana");
+
+        cozinhaRepository.save(cozinhaBrasileira);
         cozinhaRepository.save(cozinhaAmericana);
 
         burgerTopRestaurante = new Restaurante();
         burgerTopRestaurante.setNome("Burger Top");
         burgerTopRestaurante.setTaxaFrete(new BigDecimal(10));
         burgerTopRestaurante.setCozinha(cozinhaAmericana);
+        burgerTopRestaurante.setEndereco(endereco);
         restauranteRepository.save(burgerTopRestaurante);
 
         Restaurante comidaMineiraRestaurante = new Restaurante();
         comidaMineiraRestaurante.setNome("Comida Mineira");
         comidaMineiraRestaurante.setTaxaFrete(new BigDecimal(10));
         comidaMineiraRestaurante.setCozinha(cozinhaBrasileira);
+        comidaMineiraRestaurante.setEndereco(endereco);
         restauranteRepository.save(comidaMineiraRestaurante);
     }
 
