@@ -1,4 +1,6 @@
-package io.github.alancs7.speedfood.core.validation;
+package io.github.alancs7.speedfood.core.validation.annotation;
+
+import io.github.alancs7.speedfood.core.validation.validator.ValorZeroIncluiDescricaoValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

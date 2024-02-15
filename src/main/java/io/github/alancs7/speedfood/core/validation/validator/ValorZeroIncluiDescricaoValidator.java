@@ -1,5 +1,6 @@
-package io.github.alancs7.speedfood.core.validation;
+package io.github.alancs7.speedfood.core.validation.validator;
 
+import io.github.alancs7.speedfood.core.validation.annotation.ValorZeroIncluiDescricao;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.ConstraintValidator;

@@ -1,4 +1,6 @@
-package io.github.alancs7.speedfood.core.validation;
+package io.github.alancs7.speedfood.core.validation.validator;
+
+import io.github.alancs7.speedfood.core.validation.annotation.Multiplo;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
