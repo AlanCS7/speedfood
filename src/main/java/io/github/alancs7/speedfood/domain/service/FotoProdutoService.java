@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static io.github.alancs7.speedfood.domain.service.FotoStorageService.NovaFoto;
 
@@ -24,7 +25,14 @@ public class FotoProdutoService {
 
     @Transactional
     public FotoProduto salvar(Produto produto, FotoProdutoInput fotoProdutoInput) throws IOException {
-        deleteFotoSeExistir(produto.getId());
+        String nomeArquivoAntigo = null;
+
+        Optional<FotoProduto> fotoExistente = produtoRepository.findFotoById(produto.getId());
+
+        if (fotoExistente.isPresent()) {
+            nomeArquivoAntigo = fotoExistente.get().getNomeArquivo();
+            produtoRepository.delete(fotoExistente.get());
+        }
 
         FotoProduto foto = criarFotoProduto(fotoProdutoInput, produto);
 
@@ -37,15 +45,9 @@ public class FotoProdutoService {
                 .inputStream(fotoProdutoInput.getArquivo().getInputStream())
                 .build();
 
-        fotoStorage.armazenar(novaFoto);
+        fotoStorage.substituir(nomeArquivoAntigo, novaFoto);
 
         return foto;
-    }
-
-    private void deleteFotoSeExistir(Long produtoId) {
-        produtoRepository
-                .findFotoById(produtoId)
-                .ifPresent(produtoRepository::delete);
     }
 
     private FotoProduto criarFotoProduto(FotoProdutoInput fotoProdutoInput, Produto produto) {
