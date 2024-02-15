@@ -1,11 +1,13 @@
 package io.github.alancs7.speedfood.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
 public class FotoProduto {
