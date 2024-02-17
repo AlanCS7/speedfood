@@ -1,6 +1,7 @@
 package io.github.alancs7.speedfood.domain.service;
 
 import io.github.alancs7.speedfood.api.model.input.FotoProdutoInput;
+import io.github.alancs7.speedfood.domain.exception.FotoProdutoNotFoundException;
 import io.github.alancs7.speedfood.domain.model.FotoProduto;
 import io.github.alancs7.speedfood.domain.model.Produto;
 import io.github.alancs7.speedfood.domain.repository.ProdutoRepository;
@@ -25,18 +26,18 @@ public class FotoProdutoService {
 
     @Transactional
     public FotoProduto salvar(Produto produto, FotoProdutoInput fotoProdutoInput) throws IOException {
-        String nomeArquivoAntigo = null;
-
         Optional<FotoProduto> fotoExistente = produtoRepository.findFotoById(produto.getId());
 
+        String nomeArquivoAntigo = null;
         if (fotoExistente.isPresent()) {
             nomeArquivoAntigo = fotoExistente.get().getNomeArquivo();
-            produtoRepository.delete(fotoExistente.get());
+            produtoRepository.deleteFoto(fotoExistente.get());
         }
 
-        FotoProduto foto = criarFotoProduto(fotoProdutoInput, produto);
+        FotoProduto foto = criarFotoProduto(fotoProdutoInput);
+        foto.setProduto(produto);
 
-        foto = produtoRepository.save(foto);
+        foto = produtoRepository.saveFoto(foto);
         produtoRepository.flush();
 
         NovaFoto novaFoto = NovaFoto
@@ -50,15 +51,30 @@ public class FotoProdutoService {
         return foto;
     }
 
-    private FotoProduto criarFotoProduto(FotoProdutoInput fotoProdutoInput, Produto produto) {
+    private FotoProduto criarFotoProduto(FotoProdutoInput fotoProdutoInput) {
         MultipartFile arquivo = fotoProdutoInput.getArquivo();
+        String nomeArquivo = fotoStorage.gerarNomeArquivo(arquivo.getOriginalFilename());
 
         return FotoProduto.builder()
-                .produto(produto)
-                .nomeArquivo(fotoStorage.gerarNomeArquivo(arquivo.getOriginalFilename()))
+                .nomeArquivo(nomeArquivo)
                 .descricao(fotoProdutoInput.getDescricao())
                 .contentType(arquivo.getContentType())
                 .tamanho(arquivo.getSize())
                 .build();
+    }
+
+    public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNotFoundException(produtoId, restauranteId));
+    }
+
+    @Transactional
+    public void excluir(Long restauranteId, Long produtoId) {
+        FotoProduto fotoProduto = this.buscarOuFalhar(restauranteId, produtoId);
+
+        produtoRepository.deleteFoto(fotoProduto);
+        produtoRepository.flush();
+
+        fotoStorage.remover(fotoProduto.getNomeArquivo());
     }
 }
