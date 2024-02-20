@@ -1,19 +1,19 @@
 package io.github.alancs7.speedfood.infrastructure.service.storage;
 
+import io.github.alancs7.speedfood.core.storage.StorageProperties;
 import io.github.alancs7.speedfood.domain.service.FotoStorageService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
+//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 
-    @Value("${speedfood.storage.local.diretorio-fotos}")
-    private Path diretorioFotos;
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public InputStream recuperar(String nomeArquivo) {
@@ -49,6 +49,7 @@ public class LocalFotoStorageService implements FotoStorageService {
     }
 
     private Path getArquivoPath(String nomeArquivo) {
-        return diretorioFotos.resolve(Path.of(nomeArquivo));
+        return storageProperties.getLocal().getDiretorioFotos()
+                .resolve(Path.of(nomeArquivo));
     }
 }
