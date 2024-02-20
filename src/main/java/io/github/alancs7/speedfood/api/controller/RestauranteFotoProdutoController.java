@@ -11,6 +11,7 @@ import io.github.alancs7.speedfood.domain.service.FotoStorageService;
 import io.github.alancs7.speedfood.domain.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
+
+import static io.github.alancs7.speedfood.domain.service.FotoStorageService.FotoRecuperada;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
@@ -57,9 +59,9 @@ public class RestauranteFotoProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> servirFoto(@PathVariable Long restauranteId,
-                                                          @PathVariable Long produtoId,
-                                                          @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
+    public ResponseEntity<?> servirFoto(@PathVariable Long restauranteId,
+                                        @PathVariable Long produtoId,
+                                        @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
             FotoProduto fotoProduto = fotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
 
@@ -68,15 +70,21 @@ public class RestauranteFotoProdutoController {
 
             verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
 
-            InputStream inputStream = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
+            FotoRecuperada fotoRecuperada = fotoStorageService.recuperar(fotoProduto.getNomeArquivo());
+
+            if (fotoRecuperada.possuiUrl()) {
+                return ResponseEntity
+                        .status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, fotoRecuperada.getUrl())
+                        .build();
+            }
 
             return ResponseEntity.ok()
                     .contentType(mediaTypeFoto)
-                    .body(new InputStreamResource(inputStream));
+                    .body(new InputStreamResource(fotoRecuperada.getInputStream()));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @DeleteMapping
