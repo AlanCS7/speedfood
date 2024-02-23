@@ -1,8 +1,10 @@
-package io.github.alancs7.speedfood.domain.service;
+package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.domain.model.*;
 import io.github.alancs7.speedfood.domain.repository.CozinhaRepository;
 import io.github.alancs7.speedfood.domain.repository.RestauranteRepository;
+import io.github.alancs7.speedfood.domain.service.CidadeService;
+import io.github.alancs7.speedfood.domain.service.EstadoService;
 import io.github.alancs7.speedfood.util.DatabaseCleaner;
 import io.github.alancs7.speedfood.util.ResourceUtils;
 import io.restassured.RestAssured;
@@ -23,7 +25,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-class RestauranteServiceApiTest {
+class RestauranteControllerTest {
 
     private static final String VIOLACAO_DE_REGRA_DE_NEGOCIO_PROBLEM_TYPE = "Violação de regra de negócio";
 

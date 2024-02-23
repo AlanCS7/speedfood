@@ -1,4 +1,4 @@
-package io.github.alancs7.speedfood.domain.service;
+package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.domain.model.Cozinha;
 import io.github.alancs7.speedfood.domain.repository.CozinhaRepository;
@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.hasSize;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
-class CozinhaServiceApiTest {
+class CozinhaControllerTest {
 
     private static final int COZINHA_ID_INEXISTENTE = 100;
 
