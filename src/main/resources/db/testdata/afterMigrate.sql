@@ -88,7 +88,7 @@ insert into usuario (id, nome, email, senha, data_cadastro) values
 (3, 'José Souza', 'jose.aux@speedfood.com.br', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@speedfood.com.br', '123', utc_timestamp),
 (5, 'Manoel Lima', 'xabox16051@minhlun.com', '123', utc_timestamp),
-(6, 'Alan Mendonça', 'xabox16051@minhlun.com', '123', utc_timestamp),
+(6, 'Alan Silva', 'xabox16051@minhlun.com', '123', utc_timestamp),
 (7, 'Carlos Lima', 'xabox16051@minhlun.com', '123', utc_timestamp);
 
 insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
