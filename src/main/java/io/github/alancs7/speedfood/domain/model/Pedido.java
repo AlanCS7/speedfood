@@ -1,9 +1,11 @@
 package io.github.alancs7.speedfood.domain.model;
 
+import io.github.alancs7.speedfood.domain.event.PedidoConfirmadoEvent;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -13,9 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
-public class Pedido {
+public class Pedido extends AbstractAggregateRoot<Pedido> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,6 +74,8 @@ public class Pedido {
     public void confirmar() {
         this.setStatus(StatusPedido.CONFIRMADO);
         this.setDataConfirmacao(OffsetDateTime.now());
+
+        registerEvent(new PedidoConfirmadoEvent(this));
     }
 
     public void entregar() {
