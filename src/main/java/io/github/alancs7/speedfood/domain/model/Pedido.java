@@ -1,5 +1,6 @@
 package io.github.alancs7.speedfood.domain.model;
 
+import io.github.alancs7.speedfood.domain.event.PedidoCanceladoEvent;
 import io.github.alancs7.speedfood.domain.event.PedidoConfirmadoEvent;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import lombok.Data;
@@ -86,6 +87,8 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
     public void cancelar() {
         this.setStatus(StatusPedido.CANCELADO);
         this.setDataCancelamento(OffsetDateTime.now());
+
+        registerEvent(new PedidoCanceladoEvent(this));
     }
 
     private void setStatus(StatusPedido novoStatus) {
