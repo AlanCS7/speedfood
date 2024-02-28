@@ -6,11 +6,14 @@ import io.github.alancs7.speedfood.api.model.input.FormaPagamentoInput;
 import io.github.alancs7.speedfood.domain.model.FormaPagamento;
 import io.github.alancs7.speedfood.domain.service.FormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/formas-pagamento")
@@ -23,13 +26,21 @@ public class FormaPagamentoController {
     private FormaPagamentoMapper mapper;
 
     @GetMapping
-    public List<FormaPagamentoDto> listar() {
-        return mapper.toCollectionDto(formaPagamentoService.listar());
+    public ResponseEntity<List<FormaPagamentoDto>> listar() {
+        List<FormaPagamentoDto> formaPagamentosDto = mapper.toCollectionDto(formaPagamentoService.listar());
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(formaPagamentosDto);
     }
 
     @GetMapping("/{id}")
-    public FormaPagamentoDto buscar(@PathVariable Long id) {
-        return mapper.toDto(formaPagamentoService.buscarOuFalhar(id));
+    public ResponseEntity<FormaPagamentoDto> buscar(@PathVariable Long id) {
+        FormaPagamentoDto formaPagamentoDto = mapper.toDto(formaPagamentoService.buscarOuFalhar(id));
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(formaPagamentoDto);
     }
 
     @PostMapping
