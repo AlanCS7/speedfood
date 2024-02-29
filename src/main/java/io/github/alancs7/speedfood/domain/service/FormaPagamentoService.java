@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -47,5 +48,13 @@ public class FormaPagamentoService {
             throw new ResourceInUseException(
                     String.format(MSG_FORMA_PAGAMENTO_EM_USO, id));
         }
+    }
+
+    public OffsetDateTime getDataUltimaAtualizacao() {
+        return formaPagamentoRepository.getDataUltimaAtualizacao();
+    }
+
+    public OffsetDateTime getDataUltimaAtualizacaoById(Long id) {
+        return formaPagamentoRepository.getDataUltimaAtualizacaoById(id);
     }
 }
