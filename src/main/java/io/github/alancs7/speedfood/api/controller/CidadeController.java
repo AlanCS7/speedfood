@@ -7,6 +7,8 @@ import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.EstadoNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Cidade;
 import io.github.alancs7.speedfood.domain.service.CidadeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
@@ -24,16 +27,19 @@ public class CidadeController {
     @Autowired
     private CidadeMapper mapper;
 
+    @ApiOperation("Lista as cidades")
     @GetMapping
     public List<CidadeDto> listar() {
         return mapper.toCollectionDto(cidadeService.listar());
     }
 
+    @ApiOperation("Busca uma cidade por ID")
     @GetMapping("/{id}")
     public CidadeDto buscar(@PathVariable Long id) {
         return mapper.toDto(cidadeService.buscarOuFalhar(id));
     }
 
+    @ApiOperation("Cadastra uma cidade")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeDto adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
@@ -45,6 +51,7 @@ public class CidadeController {
         }
     }
 
+    @ApiOperation("Atualiza uma cidade por ID")
     @PutMapping("/{id}")
     public CidadeDto atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
         Cidade cidadeAtual = cidadeService.buscarOuFalhar(id);
@@ -58,6 +65,7 @@ public class CidadeController {
         }
     }
 
+    @ApiOperation("Exclui uma cidade por ID")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long id) {
