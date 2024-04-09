@@ -9,6 +9,7 @@ import io.github.alancs7.speedfood.domain.model.Cidade;
 import io.github.alancs7.speedfood.domain.service.CidadeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +36,16 @@ public class CidadeController {
 
     @ApiOperation("Busca uma cidade por ID")
     @GetMapping("/{id}")
-    public CidadeDto buscar(@PathVariable Long id) {
+    public CidadeDto buscar(@ApiParam(value = "ID de uma cidade", example = "1")
+                            @PathVariable Long id) {
         return mapper.toDto(cidadeService.buscarOuFalhar(id));
     }
 
     @ApiOperation("Cadastra uma cidade")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CidadeDto adicionar(@RequestBody @Valid CidadeInput cidadeInput) {
+    public CidadeDto adicionar(@ApiParam(name = "corpo", value = "Representação de uma nova cidade")
+                               @RequestBody @Valid CidadeInput cidadeInput) {
         try {
             Cidade cidade = mapper.toDomainObject(cidadeInput);
             return mapper.toDto(cidadeService.salvar(cidade));
@@ -53,7 +56,10 @@ public class CidadeController {
 
     @ApiOperation("Atualiza uma cidade por ID")
     @PutMapping("/{id}")
-    public CidadeDto atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
+    public CidadeDto atualizar(@ApiParam(value = "ID de uma cidade", example = "1")
+                               @PathVariable Long id,
+                               @ApiParam(name = "corpo", value = "Representação de uma cidade com os novos dados")
+                               @RequestBody @Valid CidadeInput cidadeInput) {
         Cidade cidadeAtual = cidadeService.buscarOuFalhar(id);
 
         mapper.copyToDomainObject(cidadeInput, cidadeAtual);
@@ -68,7 +74,8 @@ public class CidadeController {
     @ApiOperation("Exclui uma cidade por ID")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluir(@PathVariable Long id) {
+    public void excluir(@ApiParam(value = "ID de uma cidade", example = "1")
+                        @PathVariable Long id) {
         cidadeService.excluir(id);
     }
 }
