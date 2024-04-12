@@ -1,6 +1,6 @@
 package io.github.alancs7.speedfood.api.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class EstadoDto {
 
-    @ApiModelProperty(value = "ID do estado", example = "2")
+    @Schema(description = "ID do estado", example = "2")
     private Long id;
 
-    @ApiModelProperty(example = "São Paulo")
+    @Schema(description = "São Paulo")
     private String nome;
 }

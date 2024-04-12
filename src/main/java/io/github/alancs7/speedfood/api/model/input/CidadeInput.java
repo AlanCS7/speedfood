@@ -1,6 +1,6 @@
 package io.github.alancs7.speedfood.api.model.input;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CidadeInput {
 
-    @ApiModelProperty(value = "Nome da cidade", example = "Campinas", required = true)
+    @Schema(description = "Nome da cidade", example = "Campinas", required = true)
     @NotBlank
     private String nome;
 
-    @ApiModelProperty(value = "ID do estado", example = "2", required = true)
+    @Schema(description = "ID do estado", example = "2", required = true)
     @NotNull
     private Long estado;
 }
