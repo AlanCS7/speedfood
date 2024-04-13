@@ -2,16 +2,20 @@ package io.github.alancs7.speedfood.core.openapi;
 
 import com.fasterxml.classmate.TypeResolver;
 import io.github.alancs7.speedfood.api.exception.ApiError;
-import io.github.alancs7.speedfood.core.openapi.model.PageableModelOpenApi;
+import io.github.alancs7.speedfood.api.model.dto.CozinhaDto;
+import io.github.alancs7.speedfood.api.openapi.model.CozinhaDtoOpenApi;
+import io.github.alancs7.speedfood.api.openapi.model.PageableOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.*;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
@@ -30,6 +34,8 @@ public class SpringFoxConfig {
 
     @Bean
     public Docket apiDocket() {
+        TypeResolver typeResolver = new TypeResolver();
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.github.alancs7.speedfood.api"))
@@ -40,8 +46,12 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.POST, globalPostPutResponses())
                 .globalResponses(HttpMethod.PUT, globalPostPutResponses())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponses())
-                .additionalModels(new TypeResolver().resolve(ApiError.class))
-                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .additionalModels(typeResolver.resolve(ApiError.class))
+                .directModelSubstitute(Pageable.class, PageableOpenApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, CozinhaDto.class),
+                        CozinhaDtoOpenApi.class
+                ))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cidades", "Gerencia as cidades"))
                 .tags(new Tag("Grupos", "Gerencia os grupos de usuários"));

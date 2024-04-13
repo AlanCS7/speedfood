@@ -1,4 +1,4 @@
-package io.github.alancs7.speedfood.api.controller.openapi;
+package io.github.alancs7.speedfood.api.openapi.controller;
 
 import io.github.alancs7.speedfood.api.exception.ApiError;
 import io.github.alancs7.speedfood.api.model.dto.GrupoDto;

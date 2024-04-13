@@ -1,4 +1,4 @@
-package io.github.alancs7.speedfood.core.openapi.model;
+package io.github.alancs7.speedfood.api.openapi.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +10,7 @@ import java.util.List;
 @ApiModel("Pageable")
 @Getter
 @Setter
-public class PageableModelOpenApi {
+public class PageableOpenApi {
 
     @Schema(description = "Numero da página (começa em 0)", example = "0")
     private int page;

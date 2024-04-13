@@ -1,9 +1,9 @@
 package io.github.alancs7.speedfood.api.controller;
 
-import io.github.alancs7.speedfood.api.controller.openapi.CidadeControllerOpenApi;
 import io.github.alancs7.speedfood.api.mapper.CidadeMapper;
 import io.github.alancs7.speedfood.api.model.dto.CidadeDto;
 import io.github.alancs7.speedfood.api.model.input.CidadeInput;
+import io.github.alancs7.speedfood.api.openapi.controller.CidadeControllerOpenApi;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.EstadoNotFoundException;
 import io.github.alancs7.speedfood.domain.model.Cidade;

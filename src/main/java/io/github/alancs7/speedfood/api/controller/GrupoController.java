@@ -1,9 +1,9 @@
 package io.github.alancs7.speedfood.api.controller;
 
-import io.github.alancs7.speedfood.api.controller.openapi.GrupoControllerOpenApi;
 import io.github.alancs7.speedfood.api.mapper.GrupoMapper;
 import io.github.alancs7.speedfood.api.model.dto.GrupoDto;
 import io.github.alancs7.speedfood.api.model.input.GrupoInput;
+import io.github.alancs7.speedfood.api.openapi.controller.GrupoControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Grupo;
 import io.github.alancs7.speedfood.domain.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
