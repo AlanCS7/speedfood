@@ -1,78 +1,81 @@
 package io.github.alancs7.speedfood.api.controller.openapi;
 
 import io.github.alancs7.speedfood.api.exception.ApiError;
-import io.github.alancs7.speedfood.api.model.dto.CidadeDto;
-import io.github.alancs7.speedfood.api.model.input.CidadeInput;
+import io.github.alancs7.speedfood.api.model.dto.GrupoDto;
+import io.github.alancs7.speedfood.api.model.input.GrupoInput;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "Cidades")
-public interface CidadeControllerOpenApi {
+@Api(tags = "Grupos")
+public interface GrupoControllerOpenApi {
 
     @Operation(
-            summary = "Lista as cidades"
+            summary = "Lista os grupos"
     )
-    List<CidadeDto> listar();
+    List<GrupoDto> listar();
 
     @Operation(
-            summary = "Busca uma cidade por ID",
+            summary = "Busca um grupo por ID",
             responses = {
                     @ApiResponse(
                             responseCode = "400",
-                            description = "ID da cidade inválido",
+                            description = "ID do grupo inválido",
                             content = @Content(schema = @Schema(implementation = ApiError.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Cidade não encontrada",
+                            description = "Grupo não encontrado",
                             content = @Content(schema = @Schema(implementation = ApiError.class))
                     )
             }
     )
-    CidadeDto buscar(@Parameter(description = "ID de uma cidade", example = "1") Long id);
+    GrupoDto buscar(@Parameter(description = "ID do grupo", example = "1") @PathVariable Long id);
 
     @Operation(
-            summary = "Cadastra uma cidade",
-            responses = @ApiResponse(responseCode = "201", description = "Cidade cadastrada")
+            summary = "Cadastra um grupo",
+            responses = @ApiResponse(responseCode = "201", description = "Grupo cadastrado")
     )
-    CidadeDto adicionar(@Parameter(name = "corpo", description = "Representação de uma nova cidade") CidadeInput cidadeInput);
+    GrupoDto adicionar(@Parameter(name = "corpo", description = "Representação de um novo grupo") @RequestBody @Valid GrupoInput grupoInput);
 
     @Operation(
-            summary = "Atualiza uma cidade por ID",
+            summary = "Atualiza um grupo por ID",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Cidade atualizada"
+                            description = "Grupo atualizado"
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Cidade não encontrada",
+                            description = "Grupo não encontrado",
                             content = @Content(schema = @Schema(implementation = ApiError.class))
                     )
             }
     )
-    CidadeDto atualizar(@Parameter(description = "ID de uma cidade", example = "1") Long id,
-                        @Parameter(name = "corpo", description = "Representação de uma cidade com os novos dados") CidadeInput cidadeInput);
+    GrupoDto atualizar(@Parameter(description = "ID do grupo", example = "1") @PathVariable Long id,
+                       @Parameter(name = "corpo", description = "Representação de um grupo com os novos dados") @RequestBody @Valid GrupoInput grupoInput);
 
     @Operation(
-            summary = "Exclui uma cidade por ID",
+            summary = "Exclui um grupo por ID",
             responses = {
                     @ApiResponse(
                             responseCode = "204",
-                            description = "Cidade excluída"
+                            description = "Grupo excluído"
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Cidade não encontrada",
+                            description = "Grupo não encontrado",
                             content = @Content(schema = @Schema(implementation = ApiError.class))
                     )
             }
     )
-    void excluir(@Parameter(description = "ID de uma cidade", example = "1") Long id);
+    void excluir(@Parameter(description = "ID do grupo", example = "1") @PathVariable Long id);
 }

@@ -1,5 +1,6 @@
 package io.github.alancs7.speedfood.api.controller;
 
+import io.github.alancs7.speedfood.api.controller.openapi.GrupoControllerOpenApi;
 import io.github.alancs7.speedfood.api.mapper.GrupoMapper;
 import io.github.alancs7.speedfood.api.model.dto.GrupoDto;
 import io.github.alancs7.speedfood.api.model.input.GrupoInput;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 
     @Autowired
     private GrupoService grupoService;
