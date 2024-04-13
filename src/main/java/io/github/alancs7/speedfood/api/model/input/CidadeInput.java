@@ -15,7 +15,7 @@ public class CidadeInput {
     @NotBlank
     private String nome;
 
-    @Schema(description = "ID do estado", example = "2", required = true)
+    @Schema(description = "ID do estado", example = "1", required = true)
     @NotNull
     private Long estado;
 }

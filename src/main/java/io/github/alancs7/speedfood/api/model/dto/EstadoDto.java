@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class EstadoDto {
 
-    @Schema(description = "ID do estado", example = "2")
+    @Schema(description = "ID do estado", example = "1")
     private Long id;
 
     @Schema(description = "São Paulo")
