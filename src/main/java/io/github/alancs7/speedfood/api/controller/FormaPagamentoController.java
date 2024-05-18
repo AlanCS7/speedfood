@@ -3,6 +3,7 @@ package io.github.alancs7.speedfood.api.controller;
 import io.github.alancs7.speedfood.api.mapper.FormaPagamentoMapper;
 import io.github.alancs7.speedfood.api.model.dto.FormaPagamentoDto;
 import io.github.alancs7.speedfood.api.model.input.FormaPagamentoInput;
+import io.github.alancs7.speedfood.api.openapi.controller.FormaPagamentoControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.FormaPagamento;
 import io.github.alancs7.speedfood.domain.service.FormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/formas-pagamento")
-public class FormaPagamentoController {
+public class FormaPagamentoController implements FormaPagamentoControllerOpenApi {
 
     @Autowired
     private FormaPagamentoService formaPagamentoService;
