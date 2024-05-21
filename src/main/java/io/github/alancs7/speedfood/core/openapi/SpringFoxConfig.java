@@ -3,8 +3,11 @@ package io.github.alancs7.speedfood.core.openapi;
 import com.fasterxml.classmate.TypeResolver;
 import io.github.alancs7.speedfood.api.exception.ApiError;
 import io.github.alancs7.speedfood.api.model.dto.CozinhaDto;
+import io.github.alancs7.speedfood.api.model.dto.PedidoResumoDto;
 import io.github.alancs7.speedfood.api.openapi.model.CozinhaDtoOpenApi;
+import io.github.alancs7.speedfood.api.openapi.model.PageOpenApi;
 import io.github.alancs7.speedfood.api.openapi.model.PageableOpenApi;
+import io.github.alancs7.speedfood.api.openapi.model.PedidoResumoDtoOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -49,17 +52,23 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponses())
                 .additionalModels(typeResolver.resolve(ApiError.class))
                 .directModelSubstitute(Pageable.class, PageableOpenApi.class)
+                .directModelSubstitute(Page.class, PageOpenApi.class)
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(
                         typeResolver.resolve(Page.class, CozinhaDto.class),
                         CozinhaDtoOpenApi.class
+                ))
+                .alternateTypeRules(AlternateTypeRules.newRule(
+                        typeResolver.resolve(Page.class, PedidoResumoDto.class),
+                        PedidoResumoDtoOpenApi.class
                 ))
                 .apiInfo(apiInfo())
                 .tags(
                         new Tag("Cidades", "Gerencia as cidades"),
                         new Tag("Grupos", "Gerencia os grupos de usuários"),
                         new Tag("Cozinhas", "Gerencia as cozinhas"),
-                        new Tag("FormasPagamento", "Gerencia as formas de pagamento")
+                        new Tag("FormasPagamento", "Gerencia as formas de pagamento"),
+                        new Tag("Pedidos", "Gerencia os pedidos")
                 );
     }
 

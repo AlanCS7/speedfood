@@ -1,5 +1,6 @@
 package io.github.alancs7.speedfood.api.model.input;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,11 @@ import java.util.List;
 @Setter
 public class PedidoInput {
 
+    @Schema(description = "ID do restaurante", example = "1")
     @NotNull
     private Long restaurante;
 
+    @Schema(description = "ID da forma de pagamento", example = "1")
     @NotNull
     private Long formaPagamento;
 

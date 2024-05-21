@@ -5,6 +5,7 @@ import io.github.alancs7.speedfood.api.mapper.PedidoResumoMapper;
 import io.github.alancs7.speedfood.api.model.dto.PedidoDto;
 import io.github.alancs7.speedfood.api.model.dto.PedidoResumoDto;
 import io.github.alancs7.speedfood.api.model.input.PedidoInput;
+import io.github.alancs7.speedfood.api.openapi.controller.PedidoControllerOpenApi;
 import io.github.alancs7.speedfood.core.data.PageableTranslator;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.ResourceNotFoundException;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
-public class PedidoController {
+public class PedidoController implements PedidoControllerOpenApi {
 
     @Autowired
     private PedidoService pedidoService;
