@@ -51,7 +51,7 @@ public interface PedidoControllerOpenApi {
                     )
             }
     )
-    PedidoDto buscar(@Parameter(description = "Código de um pedido", example = "981c8bd3-c170-11ee-80e5-00155d4d44fe") String codigoPedido);
+    PedidoDto buscar(@Parameter(description = "Código de um pedido", example = "981c8bd3-c170-11ee-80e5-00155d4d44fe", required = true) String codigoPedido);
 
     @Operation(
             summary = "Cadastra um pedido",

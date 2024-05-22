@@ -14,7 +14,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.List;
 
-@Api(tags = "FormasPagamento")
+@Api(tags = "Formas de Pagamento")
 public interface FormaPagamentoControllerOpenApi {
 
     @Operation(
@@ -37,7 +37,7 @@ public interface FormaPagamentoControllerOpenApi {
                     )
             }
     )
-    ResponseEntity<FormaPagamentoDto> buscar(@Parameter(description = "ID de uma forma de pagamento", example = "1") Long id, ServletWebRequest request);
+    ResponseEntity<FormaPagamentoDto> buscar(@Parameter(description = "ID de uma forma de pagamento", example = "1", required = true) Long id, ServletWebRequest request);
 
     @Operation(
             summary = "Cadastra uma forma de pagamento",
@@ -59,7 +59,7 @@ public interface FormaPagamentoControllerOpenApi {
                     )
             }
     )
-    FormaPagamentoDto atualizar(@Parameter(description = "ID de uma forma de pagamento", example = "1") Long id,
+    FormaPagamentoDto atualizar(@Parameter(description = "ID de uma forma de pagamento", example = "1", required = true) Long id,
                                 @Parameter(name = "corpo", description = "Representação de uma forma de pagamento com os novos dados") FormaPagamentoInput formaPagamentoInput);
 
     @Operation(
@@ -76,6 +76,6 @@ public interface FormaPagamentoControllerOpenApi {
                     )
             }
     )
-    void excluir(@Parameter(description = "ID de uma forma de pagamento", example = "1") Long id);
+    void excluir(@Parameter(description = "ID de uma forma de pagamento", example = "1", required = true) Long id);
 
 }

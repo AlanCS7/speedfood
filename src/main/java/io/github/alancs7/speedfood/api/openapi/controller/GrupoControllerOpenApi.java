@@ -38,7 +38,7 @@ public interface GrupoControllerOpenApi {
                     )
             }
     )
-    GrupoDto buscar(@Parameter(description = "ID do grupo", example = "1") @PathVariable Long id);
+    GrupoDto buscar(@Parameter(description = "ID do grupo", example = "1", required = true) @PathVariable Long id);
 
     @Operation(
             summary = "Cadastra um grupo",
@@ -60,7 +60,7 @@ public interface GrupoControllerOpenApi {
                     )
             }
     )
-    GrupoDto atualizar(@Parameter(description = "ID do grupo", example = "1") @PathVariable Long id,
+    GrupoDto atualizar(@Parameter(description = "ID do grupo", example = "1", required = true) @PathVariable Long id,
                        @Parameter(name = "corpo", description = "Representação de um grupo com os novos dados") @RequestBody @Valid GrupoInput grupoInput);
 
     @Operation(
@@ -77,5 +77,5 @@ public interface GrupoControllerOpenApi {
                     )
             }
     )
-    void excluir(@Parameter(description = "ID do grupo", example = "1") @PathVariable Long id);
+    void excluir(@Parameter(description = "ID do grupo", example = "1", required = true) @PathVariable Long id);
 }

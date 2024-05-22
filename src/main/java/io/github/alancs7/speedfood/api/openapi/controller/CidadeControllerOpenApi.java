@@ -35,7 +35,7 @@ public interface CidadeControllerOpenApi {
                     )
             }
     )
-    CidadeDto buscar(@Parameter(description = "ID de uma cidade", example = "1") Long id);
+    CidadeDto buscar(@Parameter(description = "ID de uma cidade", example = "1", required = true) Long id);
 
     @Operation(
             summary = "Cadastra uma cidade",
@@ -57,7 +57,7 @@ public interface CidadeControllerOpenApi {
                     )
             }
     )
-    CidadeDto atualizar(@Parameter(description = "ID de uma cidade", example = "1") Long id,
+    CidadeDto atualizar(@Parameter(description = "ID de uma cidade", example = "1", required = true) Long id,
                         @Parameter(name = "corpo", description = "Representação de uma cidade com os novos dados") CidadeInput cidadeInput);
 
     @Operation(
@@ -74,5 +74,5 @@ public interface CidadeControllerOpenApi {
                     )
             }
     )
-    void excluir(@Parameter(description = "ID de uma cidade", example = "1") Long id);
+    void excluir(@Parameter(description = "ID de uma cidade", example = "1", required = true) Long id);
 }

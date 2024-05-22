@@ -35,7 +35,7 @@ public interface CozinhaControllerOpenApi {
                     )
             }
     )
-    CozinhaDto buscar(@Parameter(description = "ID de uma cozinha", example = "1") Long id);
+    CozinhaDto buscar(@Parameter(description = "ID de uma cozinha", example = "1", required = true) Long id);
 
     @Operation(
             summary = "Cadastra uma cozinha",
@@ -57,7 +57,7 @@ public interface CozinhaControllerOpenApi {
                     )
             }
     )
-    CozinhaDto atualizar(@Parameter(description = "ID de uma cozinha", example = "1") Long id,
+    CozinhaDto atualizar(@Parameter(description = "ID de uma cozinha", example = "1", required = true) Long id,
                          @Parameter(name = "corpo", description = "Representação de uma cozinha com os novos dados") CozinhaInput cozinhaInput);
 
     @Operation(
@@ -74,5 +74,5 @@ public interface CozinhaControllerOpenApi {
                     )
             }
     )
-    void excluir(@Parameter(description = "ID de uma cozinha", example = "1") Long id);
+    void excluir(@Parameter(description = "ID de uma cozinha", example = "1", required = true) Long id);
 }

@@ -5,6 +5,7 @@ import io.github.alancs7.speedfood.api.mapper.RestauranteMapper;
 import io.github.alancs7.speedfood.api.model.dto.RestauranteDto;
 import io.github.alancs7.speedfood.api.model.input.RestauranteInput;
 import io.github.alancs7.speedfood.api.model.view.RestauranteView;
+import io.github.alancs7.speedfood.api.openapi.controller.RestauranteControllerOpenApi;
 import io.github.alancs7.speedfood.domain.exception.BusinessException;
 import io.github.alancs7.speedfood.domain.exception.CidadeNotFoundException;
 import io.github.alancs7.speedfood.domain.exception.CozinhaNotFoundException;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes")
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerOpenApi {
 
     @Autowired
     private RestauranteService restauranteService;
