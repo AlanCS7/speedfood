@@ -11,6 +11,6 @@ public class EstadoDto {
     @Schema(description = "ID do estado", example = "1")
     private Long id;
 
-    @Schema(description = "São Paulo")
+    @Schema(description = "Nome do estado", example = "São Paulo")
     private String nome;
 }

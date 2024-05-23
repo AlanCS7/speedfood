@@ -3,6 +3,7 @@ package io.github.alancs7.speedfood.api.controller;
 import io.github.alancs7.speedfood.api.mapper.EstadoMapper;
 import io.github.alancs7.speedfood.api.model.dto.EstadoDto;
 import io.github.alancs7.speedfood.api.model.input.EstadoInput;
+import io.github.alancs7.speedfood.api.openapi.controller.EstadoControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Estado;
 import io.github.alancs7.speedfood.domain.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/estados")
-public class EstadoController {
+public class EstadoController implements EstadoControllerOpenApi {
 
     @Autowired
     private EstadoService estadoService;
