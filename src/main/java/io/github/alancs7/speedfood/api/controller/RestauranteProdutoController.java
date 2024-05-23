@@ -3,6 +3,7 @@ package io.github.alancs7.speedfood.api.controller;
 import io.github.alancs7.speedfood.api.mapper.ProdutoMapper;
 import io.github.alancs7.speedfood.api.model.dto.ProdutoDto;
 import io.github.alancs7.speedfood.api.model.input.ProdutoInput;
+import io.github.alancs7.speedfood.api.openapi.controller.RestauranteProdutoControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Produto;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.service.ProdutoService;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/produtos")
-public class RestauranteProdutoController {
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
     @Autowired
     private RestauranteService restauranteService;
