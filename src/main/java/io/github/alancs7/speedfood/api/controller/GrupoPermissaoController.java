@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.api.mapper.PermissaoMapper;
 import io.github.alancs7.speedfood.api.model.dto.PermissaoDto;
+import io.github.alancs7.speedfood.api.openapi.controller.GrupoPermissaoControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Grupo;
 import io.github.alancs7.speedfood.domain.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos/{grupoId}/permissoes")
-public class GrupoPermissaoController {
+public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi {
 
     @Autowired
     private GrupoService grupoService;
