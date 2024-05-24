@@ -1,5 +1,6 @@
 package io.github.alancs7.speedfood.api.controller;
 
+import io.github.alancs7.speedfood.api.openapi.controller.EstatisticasControllerOpenApi;
 import io.github.alancs7.speedfood.domain.filter.VendaDiariaFilter;
 import io.github.alancs7.speedfood.domain.model.dto.VendaDiaria;
 import io.github.alancs7.speedfood.domain.service.VendaQueryService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/estatisticas")
-public class EstatisticasController {
+public class EstatisticasController implements EstatisticasControllerOpenApi {
 
     @Autowired
     private VendaQueryService vendaQueryService;
@@ -26,13 +27,13 @@ public class EstatisticasController {
     private VendaReportService vendaReportService;
 
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
-    private List<VendaDiaria> consultarVendasDiarias(
+    public List<VendaDiaria> consultarVendasDiarias(
             VendaDiariaFilter filter, @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
         return vendaQueryService.consultarVendasDiarias(filter, timeOffset);
     }
 
     @GetMapping(path = "/vendas-diarias", produces = MediaType.APPLICATION_PDF_VALUE)
-    private ResponseEntity<byte[]> consultarVendasDiariasPdf(
+    public ResponseEntity<byte[]> consultarVendasDiariasPdf(
             VendaDiariaFilter filter, @RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
 
         byte[] bytesPdf = vendaReportService.emitirVendasDiarias(filter, timeOffset);

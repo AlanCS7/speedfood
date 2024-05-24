@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import java.util.List;
 
-@Api(tags = "Usuários")
+@Api(tags = "Usuarios")
 public interface UsuarioGrupoControllerOpenApi {
 
     @Operation(
