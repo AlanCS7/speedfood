@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.api.mapper.GrupoMapper;
 import io.github.alancs7.speedfood.api.model.dto.GrupoDto;
+import io.github.alancs7.speedfood.api.openapi.controller.UsuarioGrupoControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Usuario;
 import io.github.alancs7.speedfood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios/{usuarioId}/grupos")
-public class UsuarioGrupoController {
+public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
     @Autowired
     private UsuarioService usuarioService;

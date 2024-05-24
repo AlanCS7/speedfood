@@ -5,6 +5,7 @@ import io.github.alancs7.speedfood.api.model.dto.UsuarioDto;
 import io.github.alancs7.speedfood.api.model.input.SenhaInput;
 import io.github.alancs7.speedfood.api.model.input.UsuarioComSenhaInput;
 import io.github.alancs7.speedfood.api.model.input.UsuarioInput;
+import io.github.alancs7.speedfood.api.openapi.controller.UsuarioControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Usuario;
 import io.github.alancs7.speedfood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi {
 
     @Autowired
     private UsuarioService usuarioService;
