@@ -2,6 +2,7 @@ package io.github.alancs7.speedfood.api.controller;
 
 import io.github.alancs7.speedfood.api.mapper.UsuarioMapper;
 import io.github.alancs7.speedfood.api.model.dto.UsuarioDto;
+import io.github.alancs7.speedfood.api.openapi.controller.RestauranteUsuarioResponsavelControllerOpenApi;
 import io.github.alancs7.speedfood.domain.model.Restaurante;
 import io.github.alancs7.speedfood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/responsaveis")
-public class RestauranteUsuarioResponsavelController {
+public class RestauranteUsuarioResponsavelController implements RestauranteUsuarioResponsavelControllerOpenApi {
 
     @Autowired
     private RestauranteService restauranteService;
